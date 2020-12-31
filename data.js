@@ -10,13 +10,14 @@ const comments = ['Всё отлично!', 'В целом всё неплохо
 ];
 
 
+
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
 function getUser(i) {
 
-    const objUser = {
+    return {
         url: `img/photos/${i + 1}.jpg`,
         description: "описание фотографии",
         likes: getRandomInt(15, 200),
@@ -28,19 +29,16 @@ function getUser(i) {
             },
         ]
     }
-    return objUser;
 }
 
 function getFotos(max) {
-
     const result = [];
 
     for (let i = 0; i < max; i++) {
-        const user = getUser(i);
-        result.push(user);
+
+        result.push(getUser(i));
     }
     return result;
 }
-
 const photos = getFotos(25);
 console.log(photos);
