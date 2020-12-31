@@ -9,21 +9,29 @@ const comments = ['Всё отлично!', 'В целом всё неплохо
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-
+const CONFIG = {
+    LIKES: {
+        MIN: 15,
+        MAX: 200
+    },
+    AVATAR: {
+        MIN: 1,
+        MAX: 7
+    }
+};
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
 function getUser(i) {
-
     return {
         url: `img/photos/${i + 1}.jpg`,
         description: "описание фотографии",
-        likes: getRandomInt(15, 200),
+        likes: getRandomInt(CONFIG.LIKES.MIN, CONFIG.LIKES.MAX),
         comments: [
             {
-                avatar: `img/avatar-${getRandomInt(1, 7)}.svg`,
+                avatar: `img/avatar-${getRandomInt(CONFIG.AVATAR.MIN, CONFIG.AVATAR.MAX)}.svg`,
                 message: comments[getRandomInt(0, comments.length - 1)],
                 name: names[getRandomInt(0, names.length - 1)],
             },
@@ -41,4 +49,3 @@ function getFotos(max) {
     return result;
 }
 const photos = getFotos(25);
-console.log(photos);
