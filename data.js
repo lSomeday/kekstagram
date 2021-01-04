@@ -1,4 +1,5 @@
 
+const numberOfObjects = 25;
 
 const names = ['Аркадий', 'Клавдия', 'Иннокентий', 'Варвара', 'Анатолий', 'Василиса'];
 
@@ -17,8 +18,22 @@ const CONFIG = {
     AVATAR: {
         MIN: 1,
         MAX: 7
+    },
+    COMMENT: {
+        MIN: 1,
+        MAX: 3
     }
 };
+
+function getComment(min, max) {
+    let number = Math.floor(Math.random() * (max - min)) + min;
+
+    if (number === 2) {
+        return comments[getRandomInt(0, comments.length - 1)];
+    } else {
+        return `${comments[getRandomInt(0, comments.length - 1)]} ${comments[getRandomInt(0, comments.length - 1)]}`;
+    }
+}
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
@@ -32,7 +47,7 @@ function getUser(i) {
         comments: [
             {
                 avatar: `img/avatar-${getRandomInt(CONFIG.AVATAR.MIN, CONFIG.AVATAR.MAX)}.svg`,
-                message: comments[getRandomInt(0, comments.length - 1)],
+                message: getComment(CONFIG.COMMENT.MIN, CONFIG.COMMENT.MAX),
                 name: names[getRandomInt(0, names.length - 1)],
             },
         ]
@@ -48,4 +63,4 @@ function getFotos(max) {
     }
     return result;
 }
-const photos = getFotos(25);
+const photos = getFotos(numberOfObjects);
