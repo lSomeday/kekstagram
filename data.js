@@ -21,18 +21,16 @@ const CONFIG = {
     },
     COMMENT: {
         MIN: 1,
-        MAX: 3
-    }
+        MAX: 3,
+        COMPARE: 1,
+    },
 };
 
 function getComment(min, max) {
-    let number = Math.floor(Math.random() * (max - min)) + min;
-
-    if (number === 2) {
-        return comments[getRandomInt(0, comments.length - 1)];
-    } else {
-        return `${comments[getRandomInt(0, comments.length - 1)]} ${comments[getRandomInt(0, comments.length - 1)]}`;
-    }
+    let number = getRandomInt(min, max);
+    return number === CONFIG.COMMENT.COMPARE
+        ? comments[getRandomInt(0, comments.length - 1)]
+        : `${comments[getRandomInt(0, comments.length - 1)]} ${comments[getRandomInt(0, comments.length - 1)]}`;
 }
 
 function getRandomInt(min, max) {
@@ -56,9 +54,7 @@ function getUser(i) {
 
 function getFotos(max) {
     const result = [];
-
     for (let i = 0; i < max; i++) {
-
         result.push(getUser(i));
     }
     return result;
