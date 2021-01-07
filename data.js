@@ -65,11 +65,11 @@ const photos = getFotos(numberOfObjects);
 const template = document.querySelector('#picture');
 const picturesContainer = document.querySelector('.pictures');
 
-function render() {
+function render(inArray, outContainer) {
 
     const fragment = document.createDocumentFragment();
 
-    for (let key of photos) {
+    for (let key of inArray) {
         const url = key.url;
         const likes = key.likes;
         const numberOfComments = key.comments.length;
@@ -80,12 +80,12 @@ function render() {
         const qantityOfComments = container.querySelector('.picture__comments');
         const qantityOfLikes = container.querySelector('.picture__likes');
 
-        image.setAttribute('src', `${url}`);
+        image.setAttribute('src', url);
         qantityOfComments.textContent = numberOfComments;
         qantityOfLikes.textContent = likes;
 
         fragment.append(container);
     }
-    picturesContainer.append(fragment);
+    outContainer.append(fragment);
 }
-render();
+render(photos, picturesContainer);
