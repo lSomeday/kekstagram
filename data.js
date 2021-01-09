@@ -90,11 +90,23 @@ function render(inArray, outContainer) {
 }
 render(photos, picturesContainer);
 
+const bigPicture = document.querySelector('.big-picture');
+const commentsCounter = document.querySelector('.social__comment-count');
+const commentsLoader = document.querySelector('.comments-loader');
+const BODY = document.querySelector('body');
+
+function showElement(element) {
+    element.classList.remove('hidden');
+}
+function hideElement(element) {
+    element.classList.add('hidden');
+}
+function disableScroll(element) {
+    element.classList.add('modal-open');
+}
 
 function showPictureDetails(photoDetails) {
-    const section = document.querySelector('.big-picture');
-    section.classList.remove('hidden');
-
+    showElement(bigPicture);
     const div = document.querySelector('.big-picture__img');
     const image = div.querySelector('img');
     image.setAttribute('src', photoDetails.url);
@@ -105,8 +117,9 @@ function showPictureDetails(photoDetails) {
     const commentsCount = document.querySelector('.comments-count');
     commentsCount.textContent = photoDetails.comments.length;
 
-
     const ul = document.querySelector('.social__comments');
+    ul.innerHTML = '';
+    let emptyString = '';
 
     for (let i = 0; i < photoDetails.comments.length; i++) {
 
@@ -121,15 +134,15 @@ function showPictureDetails(photoDetails) {
                     width="35" height="35">
                     <p class="social__text">${text}"</p>
                    </li>`
-        ul.innerHTML += li;
+        emptyString += li;
     }
+    ul.innerHTML = emptyString;
     const photoDescription = document.querySelector('.social__caption');
     photoDescription.textContent = photoDetails.description
 
-    document.querySelector('.social__comment-count').classList.add('hidden');
-    document.querySelector('.comments-loader').classList.add('hidden');
-    document.querySelector('body').classList.add('modal-open');
+    hideElement(commentsCounter);
+    hideElement(commentsLoader);
+    disableScroll(BODY);
 };
 
 showPictureDetails(photos[0]);
-
