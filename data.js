@@ -61,11 +61,10 @@ function getPhotos(max) {
 }
 const photos = getPhotos(numberOfObjects);
 
-
 const template = document.querySelector('#picture');
 const picturesContainer = document.querySelector('.pictures');
 
-function getPhoto(picture) {
+function getPhotoHTML(picture) {
     const url = picture.url;
     const likes = picture.likes;
     const numberOfComments = picture.comments.length;
@@ -84,22 +83,18 @@ function getPhoto(picture) {
 }
 
 function render(pictures, outContainer) {
-
     const fragment = document.createDocumentFragment();
-
     for (let picture of pictures) {
-
-        fragment.append(getPhoto(picture));
+        fragment.append(getPhotoHTML(picture));
     }
     outContainer.append(fragment);
 }
 render(photos, picturesContainer);
 
-
 const bigPicture = document.querySelector('.big-picture');
 const commentsCounter = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
-const BODY = document.querySelector('body');
+const getBody = document.querySelector('body');
 
 function showElement(element) {
     element.classList.remove('hidden');
@@ -109,6 +104,25 @@ function hideElement(element) {
 }
 function disableScroll(element) {
     element.classList.add('modal-open');
+}
+function getPhotoCommentHTML(photoDetails) {
+    let finalComment = '';
+    for (let i = 0; i < photoDetails.comments.length; i++) {
+
+        const avatar = photoDetails.comments[i].avatar;
+        const avatarName = photoDetails.comments[i].name;
+        const text = photoDetails.comments[i].message;
+
+        const comment = `<li class="social__comment">
+                    <img class="social__picture"
+                    src="${avatar}"
+                    alt="${avatarName}"
+                    width="35" height="35">
+                    <p class="social__text">${text}"</p>
+                   </li>`
+        finalComment += comment;
+    }
+    return finalComment;
 }
 
 function showPictureDetails(photoDetails) {
@@ -125,30 +139,14 @@ function showPictureDetails(photoDetails) {
 
     const ul = document.querySelector('.social__comments');
     ul.innerHTML = '';
-    let emptyString = '';
-
-    for (let i = 0; i < photoDetails.comments.length; i++) {
-
-        const avatar = photoDetails.comments[i].avatar;
-        const avatarName = photoDetails.comments[i].name;
-        const text = photoDetails.comments[i].message;
-
-        const li = `<li class="social__comment">
-                    <img class="social__picture"
-                    src="${avatar}"
-                    alt="${avatarName}"
-                    width="35" height="35">
-                    <p class="social__text">${text}"</p>
-                   </li>`
-        emptyString += li;
-    }
-    ul.innerHTML = emptyString;
+    ul.innerHTML = getPhotoCommentHTML(photoDetails);
     const photoDescription = document.querySelector('.social__caption');
     photoDescription.textContent = photoDetails.description
 
     hideElement(commentsCounter);
     hideElement(commentsLoader);
-    disableScroll(BODY);
+    disableScroll(getBody);
 };
-
 showPictureDetails(photos[0]);
+
+
