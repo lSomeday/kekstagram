@@ -37,7 +37,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function getUser(i) {
+function getPhotoInfo(i) {
     return {
         url: `photos/${i + 1}.jpg`,
         description: "описание фотографии",
@@ -52,43 +52,49 @@ function getUser(i) {
     }
 }
 
-function getFotos(max) {
+function getPhotos(max) {
     const result = [];
     for (let i = 0; i < max; i++) {
-        result.push(getUser(i));
+        result.push(getPhotoInfo(i));
     }
     return result;
 }
-const photos = getFotos(numberOfObjects);
+const photos = getPhotos(numberOfObjects);
 
 
 const template = document.querySelector('#picture');
 const picturesContainer = document.querySelector('.pictures');
 
-function render(inArray, outContainer) {
+function getPhoto(picture) {
+    const url = picture.url;
+    const likes = picture.likes;
+    const numberOfComments = picture.comments.length;
+
+    const container = template.content.querySelector('.picture').cloneNode(true);
+
+    const image = container.querySelector('.picture__img');
+    const qantityOfComments = container.querySelector('.picture__comments');
+    const qantityOfLikes = container.querySelector('.picture__likes');
+
+    image.setAttribute('src', url);
+    qantityOfComments.textContent = numberOfComments;
+    qantityOfLikes.textContent = likes;
+
+    return container;
+}
+
+function render(pictures, outContainer) {
 
     const fragment = document.createDocumentFragment();
 
-    for (let key of inArray) {
-        const url = key.url;
-        const likes = key.likes;
-        const numberOfComments = key.comments.length;
+    for (let picture of pictures) {
 
-        const container = template.content.querySelector('.picture').cloneNode(true);
-
-        const image = container.querySelector('.picture__img');
-        const qantityOfComments = container.querySelector('.picture__comments');
-        const qantityOfLikes = container.querySelector('.picture__likes');
-
-        image.setAttribute('src', url);
-        qantityOfComments.textContent = numberOfComments;
-        qantityOfLikes.textContent = likes;
-
-        fragment.append(container);
+        fragment.append(getPhoto(picture));
     }
     outContainer.append(fragment);
 }
 render(photos, picturesContainer);
+
 
 const bigPicture = document.querySelector('.big-picture');
 const commentsCounter = document.querySelector('.social__comment-count');
