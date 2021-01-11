@@ -108,7 +108,6 @@ function disableScroll(element) {
 function getPhotoCommentHTML(photoDetails) {
     let finalComment = '';
     for (let i = 0; i < photoDetails.comments.length; i++) {
-
         const avatar = photoDetails.comments[i].avatar;
         const avatarName = photoDetails.comments[i].name;
         const text = photoDetails.comments[i].message;
@@ -138,7 +137,6 @@ function showPictureDetails(photoDetails) {
     commentsCount.textContent = photoDetails.comments.length;
 
     const ul = document.querySelector('.social__comments');
-    ul.innerHTML = '';
     ul.innerHTML = getPhotoCommentHTML(photoDetails);
     const photoDescription = document.querySelector('.social__caption');
     photoDescription.textContent = photoDetails.description
