@@ -148,3 +148,88 @@ function showPictureDetails(photoDetails) {
 showPictureDetails(photos[0]);
 
 
+const cancelBigPicture = document.querySelector('#picture-cancel');
+cancelBigPicture.addEventListener('click', () => {
+    hideElement(bigPicture);
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.keyCode == 27) {
+        hideElement(bigPicture);
+        hideElement(redactor);
+        uploadFile.value = '';
+    }
+});
+
+const cancelUploadFile = document.querySelector('#upload-cancel');
+cancelUploadFile.addEventListener('click', () => {
+    hideElement(redactor);
+    uploadFile.value = '';
+});
+
+const uploadFile = document.querySelector('#upload-file');
+const redactor = document.querySelector('.img-upload__overlay');
+uploadFile.addEventListener('change', () => {
+    showElement(redactor);
+});
+
+const imageUploadPreview = document.querySelector('.img-upload__preview');
+
+const buttonBigger = document.querySelector('.scale__control--bigger');
+const scaleValue = document.querySelector('.scale__control--value');
+let percent = 50;
+let currentScale = 1;
+const STEP = 0.25;
+buttonBigger.addEventListener('click', () => {
+    if (currentScale <= 1.25 && percent != 100) {
+        currentScale += STEP;
+        percent += 25;
+        imageUploadPreview.style.transform = `scale(${currentScale})`;
+        scaleValue.value = `${percent}%`;
+    }
+});
+const buttonSmaller = document.querySelector('.scale__control--smaller');
+buttonSmaller.addEventListener('click', () => {
+    if (currentScale > 0.5 && percent != 25) {
+        currentScale -= STEP;
+        percent -= 25;
+        imageUploadPreview.style.transform = `scale(${currentScale})`;
+        scaleValue.value = `${percent}%`;
+    }
+});
+
+const effectNone = document.querySelector('.effects__preview--none');
+effectNone.addEventListener('click', () => {
+    imageUploadPreview.classList.add('effects__preview--none');
+    imageUploadPreview.classList.remove('effects__preview--sepia', 'effects__preview--chrome', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat');
+});
+
+const effectChrom = document.querySelector('.effects__preview--chrome');
+effectChrom.addEventListener('click', () => {
+    imageUploadPreview.classList.add('effects__preview--chrome');
+    imageUploadPreview.classList.remove('effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat', 'effects__preview--none');
+});
+
+const effectSepia = document.querySelector('.effects__preview--sepia');
+effectSepia.addEventListener('click', () => {
+    imageUploadPreview.classList.add('effects__preview--sepia');
+    imageUploadPreview.classList.remove('effects__preview--chrome', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat', 'effects__preview--none');
+});
+
+const effectMarvin = document.querySelector('.effects__preview--marvin');
+effectMarvin.addEventListener('click', () => {
+    imageUploadPreview.classList.add('effects__preview--marvin');
+    imageUploadPreview.classList.remove('effects__preview--sepia', 'effects__preview--chrome', 'effects__preview--phobos', 'effects__preview--heat', 'effects__preview--none');
+});
+
+const effectPhobos = document.querySelector('.effects__preview--phobos');
+effectPhobos.addEventListener('click', () => {
+    imageUploadPreview.classList.add('effects__preview--phobos');
+    imageUploadPreview.classList.remove('effects__preview--sepia', 'effects__preview--chrome', 'effects__preview--marvin', 'effects__preview--none', 'effects__preview--heat');
+});
+
+const effectHeat = document.querySelector('.effects__preview--heat');
+effectHeat.addEventListener('click', () => {
+    imageUploadPreview.classList.add('effects__preview--heat');
+    imageUploadPreview.classList.remove('effects__preview--sepia', 'effects__preview--chrome', 'effects__preview--marvin', 'effects__preview--none', 'effects__preview--none');
+});
