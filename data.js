@@ -148,13 +148,17 @@ function showPictureDetails(photoDetails) {
 showPictureDetails(photos[0]);
 
 
+const KEY_CODE = {
+    ESC: 27,
+}
+
 const cancelBigPicture = document.querySelector('#picture-cancel');
 cancelBigPicture.addEventListener('click', () => {
     hideElement(bigPicture);
 });
 
 document.addEventListener('keydown', (event) => {
-    if (event.keyCode == 27) {
+    if (event.keyCode == KEY_CODE.ESC) {
         hideElement(bigPicture);
         hideElement(redactor);
         uploadFile.value = '';
@@ -174,62 +178,49 @@ uploadFile.addEventListener('change', () => {
 });
 
 const imageUploadPreview = document.querySelector('.img-upload__preview');
-
 const buttonBigger = document.querySelector('.scale__control--bigger');
+const buttonSmaller = document.querySelector('.scale__control--smaller');
+
 const scaleValue = document.querySelector('.scale__control--value');
 let percent = 50;
 let currentScale = 1;
-const STEP = 0.25;
+
+const VALUES = {
+    SCALE_STEP: 0.25,
+    MAX_SCALE_VALUE: 1,
+    MIN_SCALE_VALUE: 0.5,
+    PERCENT_STEP: 25,
+    MAX_PERCENT_VALUE: 100,
+    MIN_PERCENT_VALUE: 25,
+};
+
 buttonBigger.addEventListener('click', () => {
-    if (currentScale <= 1.25 && percent != 100) {
-        currentScale += STEP;
-        percent += 25;
+    if (currentScale <= VALUES.MAX_SCALE_VALUE && percent != VALUES.MAX_PERCENT_VALUE) {
+        currentScale += VALUES.SCALE_STEP;
+        percent += VALUES.PERCENT_STEP;
         imageUploadPreview.style.transform = `scale(${currentScale})`;
         scaleValue.value = `${percent}%`;
     }
 });
-const buttonSmaller = document.querySelector('.scale__control--smaller');
+
 buttonSmaller.addEventListener('click', () => {
-    if (currentScale > 0.5 && percent != 25) {
-        currentScale -= STEP;
-        percent -= 25;
+    if (currentScale > VALUES.MIN_SCALE_VALUE && percent != VALUES.MIN_PERCENT_VALUE) {
+        currentScale -= VALUES.SCALE_STEP;
+        percent -= VALUES.PERCENT_STEP;
         imageUploadPreview.style.transform = `scale(${currentScale})`;
         scaleValue.value = `${percent}%`;
     }
 });
 
-const effectNone = document.querySelector('.effects__preview--none');
-effectNone.addEventListener('click', () => {
-    imageUploadPreview.classList.add('effects__preview--none');
-    imageUploadPreview.classList.remove('effects__preview--sepia', 'effects__preview--chrome', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat');
-});
-
-const effectChrom = document.querySelector('.effects__preview--chrome');
-effectChrom.addEventListener('click', () => {
-    imageUploadPreview.classList.add('effects__preview--chrome');
-    imageUploadPreview.classList.remove('effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat', 'effects__preview--none');
-});
-
-const effectSepia = document.querySelector('.effects__preview--sepia');
-effectSepia.addEventListener('click', () => {
-    imageUploadPreview.classList.add('effects__preview--sepia');
-    imageUploadPreview.classList.remove('effects__preview--chrome', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat', 'effects__preview--none');
-});
-
-const effectMarvin = document.querySelector('.effects__preview--marvin');
-effectMarvin.addEventListener('click', () => {
-    imageUploadPreview.classList.add('effects__preview--marvin');
-    imageUploadPreview.classList.remove('effects__preview--sepia', 'effects__preview--chrome', 'effects__preview--phobos', 'effects__preview--heat', 'effects__preview--none');
-});
-
-const effectPhobos = document.querySelector('.effects__preview--phobos');
-effectPhobos.addEventListener('click', () => {
-    imageUploadPreview.classList.add('effects__preview--phobos');
-    imageUploadPreview.classList.remove('effects__preview--sepia', 'effects__preview--chrome', 'effects__preview--marvin', 'effects__preview--none', 'effects__preview--heat');
-});
-
-const effectHeat = document.querySelector('.effects__preview--heat');
-effectHeat.addEventListener('click', () => {
-    imageUploadPreview.classList.add('effects__preview--heat');
-    imageUploadPreview.classList.remove('effects__preview--sepia', 'effects__preview--chrome', 'effects__preview--marvin', 'effects__preview--none', 'effects__preview--none');
+const effects = document.querySelector('.effects__list');
+effects.addEventListener('click', (event) => {
+    if (event.target.tagName == 'SPAN') {
+        imageUploadPreview.className = '';
+        imageUploadPreview.classList.add('img-upload__preview');
+        imageUploadPreview.classList.add(`${event.target.classList[1]}`);
+    } else if (event.target.tagName == 'LABEL') {
+        imageUploadPreview.className = '';
+        imageUploadPreview.classList.add('img-upload__preview');
+        imageUploadPreview.classList.add(`${event.target.querySelector('span').classList[1]}`);
+    }
 });
