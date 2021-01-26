@@ -27,27 +27,23 @@
         },
     };
 
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min)) + min;
-    }
-
     function getComment(min, max) {
-        let number = getRandomInt(min, max);
+        let number = window.utils.getRandomInt(min, max);
         return number === CONFIG.COMMENT.COMPARE
-            ? comments[getRandomInt(0, comments.length - 1)]
-            : `${comments[getRandomInt(0, comments.length - 1)]} ${comments[getRandomInt(0, comments.length - 1)]}`;
+            ? comments[window.utils.getRandomInt(0, comments.length - 1)]
+            : `${comments[window.utils.getRandomInt(0, comments.length - 1)]} ${comments[window.utils.getRandomInt(0, comments.length - 1)]}`;
     }
 
     function getPhotoInfo(i) {
         return {
             url: `photos/${i + 1}.jpg`,
             description: "описание фотографии",
-            likes: getRandomInt(CONFIG.LIKES.MIN, CONFIG.LIKES.MAX),
+            likes: window.utils.getRandomInt(CONFIG.LIKES.MIN, CONFIG.LIKES.MAX),
             comments: [
                 {
-                    avatar: `img/avatar-${getRandomInt(CONFIG.AVATAR.MIN, CONFIG.AVATAR.MAX)}.svg`,
+                    avatar: `img/avatar-${window.utils.getRandomInt(CONFIG.AVATAR.MIN, CONFIG.AVATAR.MAX)}.svg`,
                     message: getComment(CONFIG.COMMENT.MIN, CONFIG.COMMENT.MAX),
-                    name: names[getRandomInt(0, names.length - 1)],
+                    name: names[window.utils.getRandomInt(0, names.length - 1)],
                 },
             ]
         }
@@ -61,7 +57,6 @@
         return result;
     }
     const photos = getPhotos(numberOfObjects);
-
     window.data = {
         photos: photos
     }
