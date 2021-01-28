@@ -44,7 +44,7 @@
         window.utils.hideElement(commentsLoader);
         window.utils.disableScroll(getBody);
     };
-    showPictureDetails(window.data.photos[0]);
+    showPictureDetails(window.data.posts);
 
     window.bigPicture = {
         bigPicture: bigPicture
